@@ -1,0 +1,33 @@
+pipeline {
+  agent any
+
+  tools {
+    nodejs 'Node_18' // match name you added
+  }
+
+  environment {
+    HOME = "${env.WORKSPACE}" // avoids browser install issues
+  }
+
+  stages {
+    stage('Install Dependencies') {
+      steps {
+        sh 'npm ci'
+        sh 'npx playwright install --with-deps'
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        sh 'npx playwright test'
+      }
+    }
+
+    stage('Archive Results') {
+      steps {
+        junit '**/playwright-report/*.xml' // if using JUnit reporter
+        archiveArtifacts artifacts: '**/playwright-report/**', allowEmptyArchive: true
+      }
+    }
+  }
+}
