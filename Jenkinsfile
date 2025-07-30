@@ -15,14 +15,6 @@ pipeline {
           }
         }
 
-        // stage('Install System Dependencies') {
-        //   steps {
-        //     // Assuming an Ubuntu/Debian-based Jenkins agent
-        //     sh 'apt update'
-        //     sh 'apt install -y libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libatspi2.0-0 libxcomposite1 libxdamage1 libxkbcommon0 libgbm-dev' // Add other deps as needed
-        //   }
-        // }
-
         stage('Install Dependencies'){
           steps {
             sh 'npm install'
@@ -32,8 +24,27 @@ pipeline {
         stage('Run Playwright Tests'){
           steps {
             sh 'npx playwright install chromium --with-deps'
-            sh 'npx playwright test --project chromium'
+            sh 'npx playwright test --project chromium --reporter=html'
           }
         }
+
+        stage('Archive Report') {
+          steps {
+            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+          }
+        }
+    }
+
+    post {
+      always {
+        publishHTML([
+          allowMissing: true,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'playwright-report',
+          reportFiles: 'index.html',
+          reportName: 'Playwright Test Report'
+        ])
+      }
     }
 }
