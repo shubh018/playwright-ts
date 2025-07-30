@@ -33,7 +33,8 @@ pipeline {
             dir('playwright-dashboard') {
               sh 'npm install'
               sh 'npm run build'
-              sh 'cp -r build/* ../playwright-report/'
+              sh 'cp -r build/* ../playwright-dashboard-output/'
+              sh 'cp ../playwright-report/report.json ../playwright-dashboard-output/'  // Copy the data file
             }
           }
       }
@@ -41,14 +42,15 @@ pipeline {
 
     post {
       always {
-        archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
         publishHTML([
-          allowMissing: true,
-          alwaysLinkToLastBuild: true,
-          keepAll: true,
           reportDir: 'playwright-report',
           reportFiles: 'index.html',
-          reportName: 'Playwright Test Report'
+          reportName: 'Playwright HTML Report'
+        ])
+        publishHTML([
+          reportDir: 'playwright-dashboard-output',
+          reportFiles: 'index.html',
+          reportName: 'Custom Playwright Dashboard'
         ])
       }
     }
