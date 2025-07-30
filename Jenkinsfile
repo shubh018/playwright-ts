@@ -15,13 +15,13 @@ pipeline {
           }
         }
 
-        stage('Install System Dependencies') {
-          steps {
-            // Assuming an Ubuntu/Debian-based Jenkins agent
-            sh 'apt update'
-            sh 'apt install -y libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libatspi2.0-0 libxcomposite1 libxdamage1 libxkbcommon0 libgbm-dev' // Add other deps as needed
-          }
-        }
+        // stage('Install System Dependencies') {
+        //   steps {
+        //     // Assuming an Ubuntu/Debian-based Jenkins agent
+        //     sh 'apt update'
+        //     sh 'apt install -y libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libatspi2.0-0 libxcomposite1 libxdamage1 libxkbcommon0 libgbm-dev' // Add other deps as needed
+        //   }
+        // }
 
         stage('Install Dependencies'){
           steps {
@@ -31,7 +31,7 @@ pipeline {
 
         stage('Run Playwright Tests'){
           steps {
-            sh 'npx playwright install'
+            sh 'npx playwright install --with-deps'
             sh 'npx playwright test webkit --project chromium'
           }
         }
