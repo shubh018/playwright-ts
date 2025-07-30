@@ -23,17 +23,9 @@ pipeline {
 
         stage('Run Playwright Tests'){
           steps {
-            sh 'npx playwright install'
+            sh 'npx playwright install-deps'
             sh 'npx playwright test webkit --project chromium'
           }
         }
-    }
-
-    post {
-      failure {
-        mail to: 'lixoyim132@7tul.com',
-        subject: 'Pipeline Failed',
-        body: 'The pipeline failed with an unexpected error.'
-      }
     }
 }
