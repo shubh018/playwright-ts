@@ -1,26 +1,11 @@
 pipeline {
-  agent any
+    agent any
 
-  tools {
-    nodejs 'Node_18' // match name you added
-  }
-
-  environment {
-    HOME = "${env.WORKSPACE}" // avoids browser install issues
-  }
-
-  stages {
-    stage('Run Tests') {
-      steps {
-        sh 'npx playwright test'
-      }
+    stages {
+        stage('Init') {
+            steps {
+                echo 'This is from Jenkinsfile in Git'
+            }
+        }
     }
-
-    stage('Archive Results') {
-      steps {
-        junit '**/playwright-report/*.xml' // if using JUnit reporter
-        archiveArtifacts artifacts: '**/playwright-report/**', allowEmptyArchive: true
-      }
-    }
-  }
 }
