@@ -21,10 +21,17 @@ pipeline {
           }
         }
 
-        stage('Run Playwright Tests'){
+        stage('Run Playwright Tests') {
           steps {
             sh 'npx playwright install chromium --with-deps'
-            sh 'npx playwright test --project chromium'
+
+            script {
+              def result = sh(script: 'npx playwright test --project chromium --reporter=html,json', returnStatus: true)
+              if (result != 0) {
+                echo "❌ Some tests failed, but continuing to build reports..."
+                currentBuild.result = 'UNSTABLE'
+              }
+            }
           }
         }
 
