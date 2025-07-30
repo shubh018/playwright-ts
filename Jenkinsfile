@@ -27,16 +27,11 @@ pipeline {
             sh 'npx playwright test --project chromium --reporter=html'
           }
         }
-
-        stage('Archive Report') {
-          steps {
-            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
-          }
-        }
     }
 
     post {
       always {
+        archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
         publishHTML([
           allowMissing: true,
           alwaysLinkToLastBuild: true,
