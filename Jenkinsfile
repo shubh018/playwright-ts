@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run Playwright Tests'){
           steps {
-            sh 'npx playwright install-deps'
+            sh 'npx playwright install --with-deps'
             sh 'npx playwright test webkit --project chromium'
           }
         }
