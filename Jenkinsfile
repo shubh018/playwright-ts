@@ -27,6 +27,16 @@ pipeline {
             sh 'npx playwright test --project chromium'
           }
         }
+
+        stage('Build Dashboard UI') {
+          steps {
+            dir('playwright-dashboard') {
+              sh 'npm install'
+              sh 'npm run build'
+              sh 'cp -r build/* ../playwright-report/'
+            }
+          }
+      }
     }
 
     post {
