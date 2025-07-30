@@ -24,7 +24,7 @@ pipeline {
         stage('Run Playwright Tests'){
           steps {
             sh 'npx playwright install chromium --with-deps'
-            sh 'npx playwright test --reporter=html,json --reporter-options=json.outputFile=playwright-report/report.json'
+            sh 'npx playwright test --reporter=html,json'
           }
         }
     }
