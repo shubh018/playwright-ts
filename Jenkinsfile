@@ -26,7 +26,7 @@ pipeline {
             sh 'npx playwright install chromium --with-deps'
 
             script {
-              def result = sh(script: 'npx playwright test --project chromium --reporter=html,json', returnStatus: true)
+              def result = sh(script: 'npx playwright test --project chromium', returnStatus: true)
               if (result != 0) {
                 echo "❌ Some tests failed, but continuing to build reports..."
                 currentBuild.result = 'UNSTABLE'
