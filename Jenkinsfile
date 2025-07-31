@@ -52,6 +52,9 @@ pipeline {
 
     post {
       always {
+        sh 'ls -l playwright-dashboard-output'
+        sh 'head -n 10 playwright-dashboard-output/index.html'
+
         publishHTML([
           reportDir: 'playwright-report',
           reportFiles: 'index.html',
