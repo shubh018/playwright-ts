@@ -45,6 +45,7 @@ pipeline {
             sh 'cp -r playwright-dashboard/build/* playwright-dashboard-output/'
             sh 'cp playwright-report/report.json playwright-dashboard-output/'  // Copy the data file
             sh 'ls -la playwright-report'
+            sh 'echo "<html><body><h1>Hello from Jenkins</h1></body></html>" > test-output/index.html'
           }
       }
     }
@@ -58,9 +59,15 @@ pipeline {
         ])
         publishHTML([
           reportDir: 'playwright-dashboard-output',
-          reportFiles: 'index.html',
+          reportFiles: 'new-index.html',
           reportName: 'Custom Playwright Dashboard'
         ])
+        publishHTML([
+          reportDir: 'test-output',
+          reportFiles: 'index.html',
+          reportName: 'Dummy Test HTML'
+        ])
+
       }
     }
 }
