@@ -41,8 +41,8 @@ pipeline {
               sh 'npm install'
               sh 'npm run build'
             }
-            sh 'ls'
-            sh 'cp -r build/* ../playwright-dashboard-output/'
+            sh 'ls playwright-dashboard/build'
+            sh 'cp -r playwright-dashboard/build/* playwright-dashboard-output/'
             sh 'cp playwright-report/report.json playwright-dashboard-output/'  // Copy the data file
             sh 'ls -la playwright-report'
           }
